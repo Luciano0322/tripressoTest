@@ -22,15 +22,20 @@ function App () {
       return -1;
     }
   })
-  const ratSortDec = rawDatas && rawDatas.data.tour_list.sort((a,b) =>{
-    if (a.rating < b.rating) {
+  console.log(ratSortInc);
+  // let ratSortDec = ratSortInc.reverse()
+  // console.log(ratSortDec);   
+  //價格排序
+  const priceSortInc = rawDatas && rawDatas.data.tour_list.sort((a,b) => {
+      if (a.min_price*1 > b.min_price*1) {
       return 1;
-    } else {
+      } else {
       return -1;
-    }
+      }
   })
-  console.log(ratSortDec);   
-  console.log(ratSortInc);   
+  console.log(priceSortInc);
+  // const priceSortDec = priceSortInc.reverse()
+  // console.log(priceSortDec);   
 
   return (
     <div className="App">
