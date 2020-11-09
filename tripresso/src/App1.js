@@ -78,7 +78,18 @@ class App1 extends Component {
       //     sortType
       //   })
       // }
-      
+      ratSortInc(){
+        this.setState({
+          data: this.data.sort((a,b) => {
+            if(a.rating > b.rating){
+              return 1;
+            } else {
+              return-1;
+            }
+          })
+        })
+      }
+
     render() {
       const { error, isLoaded, data } = this.state;
       
@@ -112,7 +123,7 @@ class App1 extends Component {
         return (
           <div>
             <div>
-              {/* <button onClick={this.handleDataSort('ratSortInc')}>ratSortInc</button> */}
+              <button onClick={()=> this.ratSortInc()}>ratSortInc</button>
               {data.map(data => (
                 <div key={data.id}>
                 <a href={data.tour_detail_url}><img src={data.image_url} width="150" /></a>
