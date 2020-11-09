@@ -8,20 +8,19 @@ class App1 extends Component {
       this.state = {
         error: null,
         isLoaded: false,
-        status: null,
-        data: []
+        data: [],
+        sortType:''
       };
     }
-  
+
     componentDidMount() {
       fetch("https://interview.tripresso.com/tour/search")
-        .then(res => res.json())
-        .then(
+      .then(res => res.json())
+      .then(
           (result) => {
             this.setState({
               isLoaded: true,
-              status: result,
-              data: result.data
+              data: result.data.tour_list
             });
           },
 
@@ -32,8 +31,54 @@ class App1 extends Component {
             });
           }
         )
-    }
-  
+      }
+        
+      handleDataSort = (sortType) =>{
+        let newData = [...this.state.data]
+        //rating
+        if(sortType === 'ratSortInc') {
+            newData = newData.sort((a,b) => {
+              if (a.rating > b.rating) {
+              return 1;
+              } else {
+              return -1;
+              }
+          })
+        }
+        if(sortType === 'ratSortDec') {
+            newData = newData.sort((a,b) => {
+              if (a.rating < b.rating) {
+              return 1;
+              } else {
+              return -1;
+              }
+          })
+        }
+        //價格
+        if(sortType === 'priceSortInc') {
+            newData = newData.sort((a,b) => {
+              if (a.min_price*1 > b.min_price*1) {
+              return 1;
+              } else {
+              return -1;
+              }
+          })
+        }
+        if(sortType === 'priceSortDec') {
+            newData = newData.sort((a,b) => {
+              if (a.min_price*1 < b.min_price*1) {
+              return 1;
+              } else {
+              return -1;
+              }
+          })
+        }
+        this.setState({
+          data: newData,
+          sortType
+        })
+      }
+      
     render() {
       const { error, isLoaded, data } = this.state;
       
@@ -42,18 +87,17 @@ class App1 extends Component {
       } else if (!isLoaded) {
         return <div>Loading...</div>;
       } else {
-        console.log(data.tour_list);
         // //rating排序
         // const ratSortInc = data.tour_list.sort((a,b) => {
-        //     if (a.rating > b.rating) {
+          //     if (a.rating > b.rating) {
         //     return 1;
         //     } else {
         //     return -1;
         //     }
         // })
-        // console.log(ratSortInc);
+        // console.log(...ratSortInc);
         // const ratSortDec = ratSortInc.reverse()
-        // console.log(ratSortDec);
+        // console.log(...ratSortDec);
         // //價格排序
         // const priceSortInc = data.tour_list.sort((a,b) => {
         //     if (a.min_price*1 > b.min_price*1) {
@@ -62,17 +106,20 @@ class App1 extends Component {
         //     return -1;
         //     }
         // })
-        // console.log(priceSortInc);
+        // console.log(...priceSortInc);
         // const priceSortDec = priceSortInc.reverse()
-        // console.log(priceSortDec);
+        // console.log(...priceSortDec);
         return (
-          <ul>
-            {data.tour_list.map(tour_list => (
-              <li key={tour_list.id}>
-                {tour_list.title} {tour_list.rating}
-              </li>
-            ))}
-          </ul>
+          <div>
+            <div>
+              <button onClick={this.handleDataSort('ratSortInc')}>ratSortInc</button>
+              {data.map(data => (
+                <li key={data.id}>
+                  {data.title} {data.rating}
+                </li>
+              ))}
+            </div>
+          </div>
         );
       }
     }
