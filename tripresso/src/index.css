@@ -11,3 +11,63 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+ul li{
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+.listInfo {
+  border-radius: 15px;
+  box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.listInfo:hover {
+  box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.img {
+  object-fit: contain;
+  transition: .5s;
+}
+
+.img:hover {
+  overflow: hidden;
+  transform: scale(1.1);
+  filter: grayscale(.5);
+
+}
+
+.title a{
+  font-weight: bold;
+  color: black;
+}
+
+.autoFill {
+  display: grid;
+  grid-gap: 1em;
+  grid-template-columns: repeat(auto-fill, minmax(130px,1fr));
+}
+
+.minPrice {
+  text-align: end;
+  font-weight: bold;
+  color: firebrick;
+}
+
+.number {
+  font-size: xx-large;
+}
+
+.up {
+  font-size: xx-small;
+}
+
+.accordion {
+  font-weight: bold;
+  color: darkgreen;
+  cursor: pointer;
+}

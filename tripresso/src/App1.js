@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-
+import Media from 'react-bootstrap/Media';
+import Badge from 'react-bootstrap/Badge';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Accordion from 'react-bootstrap/Accordion';
+import Card from 'react-bootstrap/Card';
 
 
 class App1 extends Component {
@@ -32,55 +37,11 @@ class App1 extends Component {
           }
         )
       }
-        
-      // handleDataSort = (sortType) =>{
-      //   let newData = [...this.state.data]
-      //   //rating
-      //   if(sortType === 'ratSortInc') {
-      //       newData = newData.sort((a,b) => {
-      //         if (a.rating > b.rating) {
-      //         return 1;
-      //         } else {
-      //         return -1;
-      //         }
-      //     })
-      //   }
-      //   if(sortType === 'ratSortDec') {
-      //       newData = newData.sort((a,b) => {
-      //         if (a.rating < b.rating) {
-      //         return 1;
-      //         } else {
-      //         return -1;
-      //         }
-      //     })
-      //   }
-      //   //價格
-      //   if(sortType === 'priceSortInc') {
-      //       newData = newData.sort((a,b) => {
-      //         if (a.min_price*1 > b.min_price*1) {
-      //         return 1;
-      //         } else {
-      //         return -1;
-      //         }
-      //     })
-      //   }
-      //   if(sortType === 'priceSortDec') {
-      //       newData = newData.sort((a,b) => {
-      //         if (a.min_price*1 < b.min_price*1) {
-      //         return 1;
-      //         } else {
-      //         return -1;
-      //         }
-      //     })
-      //   }
-      //   this.setState({
-      //     data: newData,
-      //     sortType
-      //   })
-      // }
+      
+      //rating btn
       ratSortInc(){
         this.setState({
-          data: this.data.sort((a,b) => {
+          data: this.state.data.sort((a,b) => {
             if(a.rating > b.rating){
               return 1;
             } else {
@@ -88,6 +49,40 @@ class App1 extends Component {
             }
           })
         })
+      }
+      ratSortDec(){
+        this.setState({
+          data: this.state.data.sort((a,b) => {
+            if(a.rating < b.rating){
+              return 1;
+            } else {
+              return-1;
+            }
+          })
+        }) 
+      }
+      //price btn
+      priceSortInc(){
+        this.setState({
+          data: this.state.data.sort((a,b) => {
+            if(a.min_price*1 > b.min_price*1){
+              return 1;
+            } else {
+              return-1;
+            }
+          })
+        }) 
+      }
+      priceSortDec(){
+        this.setState({
+          data: this.state.data.sort((a,b) => {
+            if(a.min_price*1 < b.min_price*1){
+              return 1;
+            } else {
+              return-1;
+            }
+          })
+        }) 
       }
 
     render() {
@@ -123,24 +118,62 @@ class App1 extends Component {
         return (
           <div>
             <div>
-              <button onClick={()=> this.ratSortInc()}>ratSortInc</button>
-              {data.map(data => (
-                <div key={data.id}>
-                <a href={data.tour_detail_url}><img src={data.image_url} width="150" /></a>
-                <p>{data.rating}</p>
-                <h3>{data.title}</h3>
-                {data.tags.map((tags) => 
-                  <span>{tags}</span>
-                )}
-                {data.group.map((group)=>
-                <ul key={group.id}>
-                  <li>{group.date}</li>
-                  <li>{group.quantity}</li>
-                </ul>
-                )}
-      
+              <div className="d-flex mx-5 mt-5 mb-0">
+              <DropdownButton id="dropdown-basic-button" title="依評分排序" variant="info" className="mx-3">
+                <Dropdown.Item onClick={()=> this.ratSortInc()}>小到大</Dropdown.Item>
+                <Dropdown.Item onClick={()=> this.ratSortDec()}>大到小</Dropdown.Item>
+              </DropdownButton>
+              <DropdownButton id="dropdown-basic-button" title="依價格排序" variant="success" className="mx-3">
+                <Dropdown.Item onClick={()=> this.priceSortInc()}>小到大</Dropdown.Item>
+                <Dropdown.Item onClick={()=> this.priceSortDec()}>大到小</Dropdown.Item>
+              </DropdownButton>
               </div>
+
+              {data.map(data => (
+                <Media key={data.id} className="mx-5 my-3 p-2 listInfo">
+                  <a className="p-2 img" href={data.tour_detail_url}>
+                    <img
+                      width="250"
+                      className="mr-3"
+                      src={data.image_url}
+                    />
+                  </a>
+                  <Media.Body>
+                  
+                    <p>評分<Badge variant="warning">{data.rating}</Badge></p>
+                    <h5 className="title"><a href={data.tour_detail_url}>{data.title}</a></h5>
+                    {data.tags.map((tags) => 
+                      <Badge pill variant="info" key={tags} className="mx-1">
+                        {tags}
+                      </Badge>
+                    )}
+
+                    <Accordion defaultActiveKey="0" className="my-2">
+                      <Card>
+                        <Accordion.Toggle as={Card.Header} eventKey="1" className="accordion">
+                          出發日期和數量
+                        </Accordion.Toggle>
+                        <Accordion.Collapse eventKey="1">
+                          <Card.Body>
+                            <div className="autoFill mt-2">
+                              {data.group.map((group)=>
+                                <ul className="p-1 border border-success rounded" key={group.id}>
+                                  <li>日期:{group.date}</li>
+                                  <li>數量:{group.quantity}</li>
+                                </ul>
+                              )}
+                            </div>
+                          </Card.Body>
+                        </Accordion.Collapse>
+                      </Card>
+                    </Accordion>
+
+                    <h5 className="px-2 minPrice">最低價<span className="px-1 number">{data.min_price}</span><span className="up">起</span></h5>
+                  </Media.Body>
+                </Media>
+                
               ))}
+
             </div>
           </div>
         );
