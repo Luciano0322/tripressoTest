@@ -39,7 +39,7 @@ class App1 extends Component {
       }
       
       //rating btn
-      ratSortInc(){
+      ratSortInc = () => {
         this.setState({
           data: this.state.data.sort((a,b) => {
             if(a.rating > b.rating){
@@ -50,7 +50,7 @@ class App1 extends Component {
           })
         })
       }
-      ratSortDec(){
+      ratSortDec = () => {
         this.setState({
           data: this.state.data.sort((a,b) => {
             if(a.rating < b.rating){
@@ -62,7 +62,7 @@ class App1 extends Component {
         }) 
       }
       //price btn
-      priceSortInc(){
+      priceSortInc = () => {
         this.setState({
           data: this.state.data.sort((a,b) => {
             if(a.min_price*1 > b.min_price*1){
@@ -73,7 +73,7 @@ class App1 extends Component {
           })
         }) 
       }
-      priceSortDec(){
+      priceSortDec = () => {
         this.setState({
           data: this.state.data.sort((a,b) => {
             if(a.min_price*1 < b.min_price*1){
@@ -93,39 +93,17 @@ class App1 extends Component {
       } else if (!isLoaded) {
         return <div>Loading...</div>;
       } else {
-        // //rating排序
-        // const ratSortInc = data.tour_list.sort((a,b) => {
-          //     if (a.rating > b.rating) {
-        //     return 1;
-        //     } else {
-        //     return -1;
-        //     }
-        // })
-        // console.log(...ratSortInc);
-        // const ratSortDec = ratSortInc.reverse()
-        // console.log(...ratSortDec);
-        // //價格排序
-        // const priceSortInc = data.tour_list.sort((a,b) => {
-        //     if (a.min_price*1 > b.min_price*1) {
-        //     return 1;
-        //     } else {
-        //     return -1;
-        //     }
-        // })
-        // console.log(...priceSortInc);
-        // const priceSortDec = priceSortInc.reverse()
-        // console.log(...priceSortDec);
         return (
           <div>
             <div>
               <div className="d-flex mx-5 mt-5 mb-0">
               <DropdownButton id="dropdown-basic-button" title="依評分排序" variant="info" className="mx-3">
-                <Dropdown.Item onClick={()=> this.ratSortInc()}>小到大</Dropdown.Item>
-                <Dropdown.Item onClick={()=> this.ratSortDec()}>大到小</Dropdown.Item>
+                <Dropdown.Item onClick={this.ratSortInc}>小到大</Dropdown.Item>
+                <Dropdown.Item onClick={this.ratSortDec}>大到小</Dropdown.Item>
               </DropdownButton>
               <DropdownButton id="dropdown-basic-button" title="依價格排序" variant="success" className="mx-3">
-                <Dropdown.Item onClick={()=> this.priceSortInc()}>小到大</Dropdown.Item>
-                <Dropdown.Item onClick={()=> this.priceSortDec()}>大到小</Dropdown.Item>
+                <Dropdown.Item onClick={this.priceSortInc}>小到大</Dropdown.Item>
+                <Dropdown.Item onClick={this.priceSortDec}>大到小</Dropdown.Item>
               </DropdownButton>
               </div>
 
